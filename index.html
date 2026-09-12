@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f2e9">
+<title>埃及 · 2026-10-03 ~ 10-11 · 旅行手册</title>
+<style>
+/* ============================================================
+   埃及旅行手册 · 单文件 · 零外部依赖
+   设计方向：手绘旅行日志风 · 暖纸底 + 墨色 + 陶土橙单重音
+   昼夜自适应：prefers-color-scheme + 手动切换
+   ============================================================ */
+
+:root{
+  --ease-out: cubic-bezier(0.23,1,0.32,1);
+  --ease-drawer: cubic-bezier(0.32,0.72,0,1);
+
+  --bg:#f7f2e9;
+  --bg-soft:#efe7d8;
+  --card:#fffdf8;
+  --ink:#24211c;
+  --ink-2:#5d5649;
+  --ink-3:#8b8375;
+  --line:#e2d9c7;
+  --line-strong:#c9bda4;
+  --accent:#b4531f;        /* 陶土橙 */
+  --accent-ink:#fff;
+  --gold:#a1710c;
+  --green:#2f6d45;
+  --red:#a63d2b;
+  --blue:#35597a;
+  --shadow:0 1px 2px rgba(60,45,20,.06), 0 6px 20px -8px rgba(60,45,20,.12);
+  --radius:14px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#191612;
+    --bg-soft:#211d16;
+    --card:#26211a;
+    --ink:#eee7da;
+    --ink-2:#b9ae9b;
+    --ink-3:#877e6f;
+    --line:#3a3328;
+    --line-strong:#524836;
+    --accent:#dd8a4e;
+    --accent-ink:#211407;
+    --gold:#d3a548;
+    --green:#7cb98d;
+    --red:#e08a74;
+    --blue:#8db2d4;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 20px -8px rgba(0,0,0,.5);
+  }
+}
+
+/* 手动深色切换 */
+html.dark{
+  --bg:#191612;
+  --bg-soft:#211d16;
+  --card:#26211a;
+  --ink:#eee7da;
+  --ink-2:#b9ae9b;
+  --ink-3:#877e6f;
+  --line:#3a3328;
+  --line-strong:#524836;
+  --accent:#dd8a4e;
+  --accent-ink:#211407;
+  --gold:#d3a548;
+  --green:#7cb98d;
+  --red:#e08a74;
+  --blue:#8db2d4;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 20px -8px rgba(0,0,0,.5);
+}
+html.dark .theme-toggle::before{ content:"☀️"; }
+.theme-toggle::before{ content:"🌙"; }
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 calc(env(safe-area-inset-bottom) + 48px);
+  transition:background .3s var(--ease-out), color .3s var(--ease-out);
+}
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:680px; margin:0 auto; padding:0 18px; }
+
+/* 顶栏 */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-in{ max-width:680px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.brand{ font-weight:600; letter-spacing:.02em; font-size:14px; }
+.brand small{ display:block; font-weight:400; color:var(--ink-3); font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+.theme-toggle{
+  border:1px solid var(--line-strong); background:var(--card); color:var(--ink);
+  width:38px; height:38px; border-radius:50%; font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .12s var(--ease-out);
+}
+.theme-toggle:active{ transform:scale(.94); }
+
+/* 主标题 */
+.hero{ padding:26px 0 8px; }
+.hero .kicker{ color:var(--accent); font-size:12px; font-weight:600; letter-spacing:.22em; text-transform:uppercase; }
+.hero h1{ font-size:clamp(24px, 6vw, 32px); line-height:1.2; margin:6px 0 4px; font-weight:700; letter-spacing:-.01em; }
+.hero .sub{ color:var(--ink-2); font-size:14px; }
+.hero .sub b{ color:var(--ink); font-weight:600; }
+.tzline{ display:inline-block; margin-top:8px; font-size:12px; color:var(--ink-3); background:var(--bg-soft); border:1px solid var(--line); padding:4px 10px; border-radius:20px; }
+
+/* ===== 此刻关注 卡片 ===== */
+.now-card{
+  margin-top:18px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+.now-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:5px;
+  background:linear-gradient(var(--accent), var(--gold));
+}
+.now-card .label{ font-size:12px; font-weight:600; color:var(--accent); letter-spacing:.16em; }
+.now-card .event{ font-size:19px; font-weight:700; margin:6px 0 2px; line-height:1.3; }
+.now-card .event-time{ font-size:13px; color:var(--ink-2); }
+.countdown{
+  display:flex; gap:10px; margin-top:16px; text-align:center;
+}
+.cd-cell{
+  flex:1; background:var(--bg-soft); border:1px solid var(--line);
+  border-radius:12px; padding:10px 4px 8px;
+}
+.cd-cell .num{
+  font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums;
+  font-size:clamp(22px,6vw,30px); font-weight:700; line-height:1;
+  color:var(--accent);
+}
+.cd-cell .unit{ font-size:11px; color:var(--ink-3); margin-top:4px; letter-spacing:.1em; }
+.now-foot{ margin-top:14px; font-size:12.5px; color:var(--ink-3); display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.now-foot .dot{ width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; }
+
+/* ===== 通用 section ===== */
+section{ margin-top:34px; }
+.sec-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px; }
+.sec-head h2{ font-size:18px; font-weight:700; letter-spacing:-.01em; }
+.sec-head .en{ font-size:11px; color:var(--ink-3); letter-spacing:.18em; text-transform:uppercase; font-weight:600; }
+
+/* ===== 手绘 SVG 地图 ===== */
+.map-card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:14px;
+}
+.map-card svg{ width:100%; height:auto; display:block; }
+.map-legend{ display:flex; flex-wrap:wrap; gap:8px 14px; margin-top:12px; }
+.map-legend span{ font-size:12px; color:var(--ink-2); display:flex; align-items:center; gap:6px; }
+.map-legend i{ width:16px; height:4px; border-radius:2px; display:inline-block; }
+.legend-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+
+/* ===== 预订卡片 ===== */
+.book-group{ margin-bottom:16px; }
+.book-group h3{
+  font-size:13px; font-weight:600; color:var(--ink-3);
+  letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px;
+  display:flex; align-items:center; gap:8px;
+}
+.book-group h3::after{ content:""; flex:1; height:1px; background:var(--line); }
+.book-item{
+  background:var(--card); border:1px solid var(--line); border-radius:12px;
+  padding:14px; margin-bottom:10px;
+}
+.book-item .title{ font-weight:700; font-size:15px; display:flex; align-items:flex-start; gap:8px; }
+.book-item .title .ic{ font-size:15px; line-height:1.4; }
+.book-item .meta{ margin-top:8px; display:grid; gap:5px; }
+.book-item .meta div{ font-size:13px; color:var(--ink-2); display:flex; gap:8px; }
+.book-item .meta .k{ color:var(--ink-3); min-width:58px; flex-shrink:0; font-size:12.5px; }
+.book-item .meta a{ color:var(--accent); font-weight:500; }
+.book-item .tag{
+  font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px; white-space:nowrap;
+}
+.tag.done{ background:color-mix(in srgb, var(--green) 14%, transparent); color:var(--green); }
+.tag.pending{ background:color-mix(in srgb, var(--gold) 16%, transparent); color:var(--gold); }
+.book-item .map-link{
+  display:inline-flex; align-items:center; gap:5px; margin-top:8px;
+  font-size:12.5px; color:var(--blue); font-weight:500;
+}
+
+/* ===== 逐日行程 ===== */
+.day{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  margin-bottom:12px; overflow:hidden; box-shadow:var(--shadow);
+}
+.day-head{
+  display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer;
+}
+.day-badge{
+  flex-shrink:0; width:44px; height:44px; border-radius:12px;
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
+  color:var(--accent); font-weight:700; font-size:14px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  line-height:1.1;
+}
+.day-badge small{ font-size:9px; font-weight:600; opacity:.8; letter-spacing:.05em; }
+.day-title{ flex:1; min-width:0; }
+.day-title .d{ font-weight:700; font-size:15px; }
+.day-title .route{ font-size:12.5px; color:var(--ink-3); margin-top:2px; }
+.day-arrow{ font-size:12px; color:var(--ink-3); transition:transform .25s var(--ease-out); }
+.day.open .day-arrow{ transform:rotate(180deg); }
+
+.day-body{ display:none; border-top:1px solid var(--line); }
+.day.open .day-body{ display:block; }
+
+.day-nav{
+  display:flex; gap:8px; padding:12px 16px; background:var(--bg-soft);
+  border-bottom:1px solid var(--line); flex-wrap:wrap;
+}
+.day-nav a{
+  flex:1; min-width:130px; text-align:center;
+  font-size:12.5px; font-weight:600; padding:8px 10px; border-radius:10px;
+  border:1px solid var(--line-strong); background:var(--card); color:var(--ink);
+  transition:transform .12s var(--ease-out);
+}
+.day-nav a:active{ transform:scale(.97); }
+.day-nav a.nav-map{ color:var(--blue); }
+.day-nav a.nav-all{ color:var(--accent); }
+
+.day-timeline{ padding:6px 16px 14px; }
+.tl-item{ display:flex; gap:14px; padding:12px 0; border-bottom:1px dashed var(--line); }
+.tl-item:last-child{ border-bottom:none; }
+.tl-time{ flex-shrink:0; width:92px; font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; padding-top:2px; }
+.tl-time .tz{ display:block; font-size:10px; color:var(--ink-3); font-weight:400; }
+.tl-main{ flex:1; min-width:0; }
+.tl-main .what{ font-size:14.5px; font-weight:600; line-height:1.4; }
+.tl-main .note{ font-size:12.5px; color:var(--ink-2); margin-top:3px; line-height:1.55; }
+.tl-main .note b{ color:var(--ink); font-weight:600; }
+.need-book{
+  display:inline-flex; align-items:center; gap:4px; margin-top:6px;
+  font-size:11px; font-weight:700; color:var(--gold);
+  background:color-mix(in srgb, var(--gold) 14%, transparent);
+  padding:2px 9px; border-radius:20px;
+}
+.need-book.booked{ color:var(--green); background:color-mix(in srgb, var(--green) 14%, transparent); }
+.need-book.risk{ color:var(--red); background:color-mix(in srgb, var(--red) 12%, transparent); }
+
+/* ===== 待办 ===== */
+.todo{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:6px 16px;
+}
+.todo li{
+  list-style:none; padding:12px 0; border-bottom:1px dashed var(--line);
+  font-size:14px; display:flex; gap:10px; align-items:flex-start;
+}
+.todo li:last-child{ border-bottom:none; }
+.todo li .st{ flex-shrink:0; font-size:13px; line-height:1.5; }
+.todo li .st.done{ color:var(--green); }
+.todo li .st.todo{ color:var(--gold); }
+.todo li .txt b{ color:var(--ink); }
+.todo li .txt .dl{ font-size:12px; color:var(--ink-3); display:block; }
+.todo-note{ font-size:12px; color:var(--ink-3); margin-top:10px; padding:0 4px; }
+
+/* ===== 实用贴士 ===== */
+.tips{ display:grid; gap:10px; }
+.tip{
+  background:var(--card); border:1px solid var(--line); border-radius:12px;
+  padding:14px 16px;
+}
+.tip h3{ font-size:14px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+.tip p, .tip li{ font-size:13px; color:var(--ink-2); line-height:1.6; }
+.tip ul{ padding-left:18px; margin-top:4px; }
+.tip ul li{ margin:3px 0; }
+.tip b{ color:var(--ink); font-weight:600; }
+.tip .lvl{ font-size:10.5px; font-weight:700; padding:1px 7px; border-radius:20px; }
+.tip .lvl.star{ color:var(--gold); background:color-mix(in srgb, var(--gold) 15%, transparent); }
+
+/* 页脚 */
+footer{ margin-top:40px; text-align:center; color:var(--ink-3); font-size:12px; line-height:1.8; }
+footer .flag{ letter-spacing:.2em; }
+
+/* 标签 chips（分类色） */
+.chip{ font-size:11px; font-weight:600; padding:1px 8px; border-radius:20px; white-space:nowrap; }
+.chip.transport{ background:color-mix(in srgb, var(--blue) 14%, transparent); color:var(--blue); }
+.chip.sight{ background:color-mix(in srgb, var(--green) 14%, transparent); color:var(--green); }
+.chip.food{ background:color-mix(in srgb, var(--accent) 14%, transparent); color:var(--accent); }
+.chip.rest{ background:color-mix(in srgb, var(--gold) 14%, transparent); color:var(--gold); }
+.chip.hotel{ background:color-mix(in srgb, #7b5aa6 14%, transparent); color:#7b5aa6; }
+.chip.activity{ background:color-mix(in srgb, #3577a6 14%, transparent); color:#3577a6; }
+
+@media (max-width:420px){
+  .tl-time{ width:78px; font-size:12.5px; }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">埃及 · 9 天旅行手册<small>2026.10.03 — 10.12</small></div>
+    <button class="theme-toggle" id="themeBtn" aria-label="切换昼夜模式" title="切换昼夜模式"></button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 头部 ============ -->
+  <header class="hero">
+    <div class="kicker">Egypt · Travel Handbook</div>
+    <h1>埃及 · 9 天 · 开罗→卢克索→赫尔格达</h1>
+    <p class="sub">2 人 · 北京往返 · 海航直飞经深圳 · 机票与酒店均已出票</p>
+    <span class="tzline">🕐 埃及时间 = UTC+3 ｜ 北京 = UTC+8 ｜ 时差 5 小时</span>
+  </header>
+
+  <!-- ============ 1. 此刻关注 ============ -->
+  <div class="now-card" id="nowCard">
+    <div class="label">NEXT · 下一个行程事件</div>
+    <div class="event" id="nowEvent">加载中…</div>
+    <div class="event-time" id="nowEventTime"></div>
+    <div class="countdown" id="countdown">
+      <div class="cd-cell"><div class="num" id="cd-d">--</div><div class="unit">天</div></div>
+      <div class="cd-cell"><div class="num" id="cd-h">--</div><div class="unit">时</div></div>
+      <div class="cd-cell"><div class="num" id="cd-m">--</div><div class="unit">分</div></div>
+      <div class="cd-cell"><div class="num" id="cd-s">--</div><div class="unit">秒</div></div>
+    </div>
+    <div class="now-foot"><span class="dot"></span>倒计时按设备本地时区实时计算，跨时区打开不会错</div>
+  </div>
+
+  <!-- ============ 2. 行程总览地图 ============ -->
+  <section id="map">
+    <div class="sec-head"><h2>行程总览</h2><span class="en">Route Map</span></div>
+    <div class="map-card">
+      <!-- 手绘风路线 SVG（示意，非真实比例） -->
+      <svg viewBox="0 0 640 760" role="img" aria-label="埃及行程路线示意图" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <style>
+            .land{ fill:#efe6d3; stroke:#d8c9a8; stroke-width:2; }
+            .sea{ fill:none; stroke:#9fc3d8; stroke-width:2; stroke-dasharray:6 6; opacity:.7; }
+            .nile{ fill:none; stroke:#7fb0a0; stroke-width:5; opacity:.55; stroke-linecap:round; }
+            .route{ fill:none; stroke-width:4; stroke-linecap:round; stroke-dasharray:1 9; }
+            .city-dot{ stroke:#fff; stroke-width:2.5; }
+            .city-label{ font-size:15px; font-weight:700; font-family:inherit; }
+            .city-sub{ font-size:11px; fill:#9b6a4a; font-weight:600; }
+            .hotel-pin{ font-size:13px; fill:#6b5a3a; }
+            .misc{ fill:#b9aa8d; font-size:12px; }
+          </style>
+        </defs>
+
+        <!-- 地中海 -->
+        <text class="misc" x="150" y="40">地中海 MEDITERRANEAN SEA</text>
+        <path class="sea" d="M 20 55 Q 160 30 320 52 T 620 48" />
+
+        <!-- 陆地轮廓（示意） -->
+        <path class="land" d="M 60 90 C 40 260 90 480 120 660 C 150 720 260 730 300 690 C 360 640 420 560 430 500 C 520 470 600 400 610 330 C 618 260 560 120 420 110 C 330 100 200 80 60 90 Z" />
+
+        <!-- 尼罗河 -->
+        <path class="nile" d="M 200 110 C 215 220 240 330 260 420 C 275 500 290 560 305 640" />
+
+        <!-- ===== 路线（按天不同颜色，分段的虚线） ===== -->
+        <!-- D3 开罗→卢克索（✈️ 橙） -->
+        <path class="route" stroke="#c2581f" d="M 205 150 C 240 300 255 420 268 500" />
+        <!-- D4 卢克索周边（帝王谷/卡纳克/神庙 绿） -->
+        <path class="route" stroke="#2f6d45" d="M 268 500 C 285 508 296 512 300 505 C 312 496 320 500 325 515" />
+        <!-- D5 卢克索→赫尔格达（🚙 蓝） -->
+        <path class="route" stroke="#35597a" d="M 305 560 C 360 540 430 500 470 460 C 500 430 520 400 540 380" />
+        <!-- D6-D7 赫尔格达近海（🚢 金） -->
+        <path class="route" stroke="#a1710c" d="M 545 385 C 558 398 566 412 560 424 C 555 434 560 440 570 440" />
+        <!-- D8 赫尔格达→开罗（✈️ 紫红） -->
+        <path class="route" stroke="#8a4a7a" d="M 540 380 C 470 300 380 200 230 160 C 215 152 205 148 200 148" />
+
+        <!-- ===== 城市 ===== -->
+        <!-- 开罗 -->
+        <circle class="city-dot" cx="205" cy="150" r="11" fill="#c2581f"/>
+        <text class="city-label" x="222" y="148">开罗 · Cairo</text>
+        <text class="city-sub" x="222" y="164">吉萨金字塔 / GEM</text>
+        <!-- 卢克索 -->
+        <circle class="city-dot" cx="270" cy="505" r="11" fill="#2f6d45"/>
+        <text class="city-label" x="288" y="503">卢克索 · Luxor</text>
+        <text class="city-sub" x="288" y="519">帝王谷 / 卡纳克 / 热气球</text>
+        <!-- 赫尔格达 -->
+        <circle class="city-dot" cx="542" cy="385" r="11" fill="#35597a"/>
+        <text class="city-label" x="470" y="368" text-anchor="end">赫尔格达 · Hurghada</text>
+        <text class="city-sub" x="470" y="352" text-anchor="end">红海 / 出海</text>
+
+        <!-- ===== 每晚住宿 ===== -->
+        <text class="hotel-pin" x="235" y="205">🛏 10/4 开罗 JAZ Pyramids</text>
+        <text class="hotel-pin" x="310" y="470">🛏 10/5–6 卢克索 Jolie Ville</text>
+        <text class="hotel-pin" x="498" y="470">🛏 10/7–8 赫尔格达 Tropitel</text>
+        <text class="hotel-pin" x="498" y="488">🛏 10/9 赫尔格达 Oberoi</text>
+        <text class="hotel-pin" x="235" y="225">🛏 10/10 开罗 Le Méridien 机场</text>
+
+        <!-- 机动日提示 -->
+        <text class="misc" x="60" y="120">D1–D2 ✈ 北京→开罗</text>
+        <text class="misc" x="60" y="136">D9–D10 ✈ 开罗→北京</text>
+      </svg>
+
+      <div class="map-legend">
+        <span><i style="background:#c2581f"></i>D3 飞卢克索</span>
+        <span><i style="background:#2f6d45"></i>D4 卢克索游</span>
+        <span><i style="background:#35597a"></i>D5 陆路去红海</span>
+        <span><i style="background:#a1710c"></i>D6–7 红海出海</span>
+        <span><i style="background:#8a4a7a"></i>D8 飞回开罗</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. 已确认预订 ============ -->
+  <section id="bookings">
+    <div class="sec-head"><h2>已确认预订</h2><span class="en">Booked &amp; Confirmed</span></div>
+
+    <div class="book-group">
+      <h3>✈ 国际航班 · 已出票</h3>
+      <div class="book-item">
+        <div class="title"><span class="ic">🛫</span><span>去程 · 海航 HU7713 + HU471 北京→深圳→开罗</span></div>
+        <div class="meta">
+          <div><span class="k">时间</span><span>10/03 20:30 北京T2 起飞 → 10/04 07:50 开罗T3 落地（经深圳中转约 2h）</span></div>
+          <div><span class="k">航司</span><span>海南航空 · 787 经济舱 · 含餐</span></div>
+          <div><span class="k">行李</span><span>托运 23kg×1 + 手提 7kg×1（深圳中转需重新托运）</span></div>
+          <div><span class="k">状态</span><span class="tag done">已出票 08-08</span></div>
+        </div>
+      </div>
+      <div class="book-item">
+        <div class="title"><span class="ic">🛬</span><span>返程 · 海航 HU472 + HU7702 开罗→深圳→北京</span></div>
+        <div class="meta">
+          <div><span class="k">时间</span><span>10/11 12:10 开罗T3 起飞 → 10/12 10:15 北京T2 落地（经深圳中转 3h10m）</span></div>
+          <div><span class="k">行李</span><span>深圳中转行李直达北京，不用取</span></div>
+          <div><span class="k">状态</span><span class="tag done">已出票</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-group">
+      <h3>✈ 内陆航班 · 已出票</h3>
+      <div class="book-item">
+        <div class="title"><span class="ic">🛫</span><span>开罗 → 卢克索 · Air Cairo SM070</span></div>
+        <div class="meta">
+          <div><span class="k">时间</span><span>10/05 14:00 → 15:00（约 1h，A320）</span></div>
+          <div><span class="k">状态</span><span class="tag done">已出票</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Cairo+International+Airport" target="_blank" rel="noopener">📍 开罗机场 · 出发</a>
+      </div>
+      <div class="book-item">
+        <div class="title"><span class="ic">🛬</span><span>赫尔格达 → 开罗 · Air Cairo SM023</span></div>
+        <div class="meta">
+          <div><span class="k">时间</span><span>10/10 13:30 → 15:00（约 1.5h）</span></div>
+          <div><span class="k">状态</span><span class="tag done">已出票</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Hurghada+International+Airport" target="_blank" rel="noopener">📍 赫尔格达机场 · 出发</a>
+      </div>
+    </div>
+
+    <div class="book-group">
+      <h3>🏨 酒店 · 9 晚全订</h3>
+      <div class="book-item">
+        <div class="title"><span class="ic">🏨</span><span>JAZ Pyramids Resort · 开罗吉萨</span></div>
+        <div class="meta">
+          <div><span class="k">入住</span><span>10/04（1 晚）· Superior King/Twin Garden View · 无早</span></div>
+          <div><span class="k">电话</span><span>+20 2 3838 7333</span></div>
+          <div><span class="k">备注</span><span>入住 10:00 / 退房 12:00；10/02 前免费取消</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=JAZ+Pyramids+Resort+Giza+Egypt" target="_blank" rel="noopener">📍 地图导航</a>
+      </div>
+      <div class="book-item">
+        <div class="title"><span class="ic">🏨</span><span>Jolie Ville Kings Island · 卢克索</span></div>
+        <div class="meta">
+          <div><span class="k">入住</span><span>10/05–10/06（2 晚）· 尼罗河景豪华房 43㎡ · 含早</span></div>
+          <div><span class="k">备注</span><span>已备注安静/风景好/不要角落房；禁止携带酒店外食物；10/04 前免费取消</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Jolie+Ville+Kings+Island+Luxor+Egypt" target="_blank" rel="noopener">📍 地图导航</a>
+      </div>
+      <div class="book-item">
+        <div class="title"><span class="ic">🏨</span><span>Tropitel Sahl Hasheesh · 赫尔格达</span></div>
+        <div class="meta">
+          <div><span class="k">入住</span><span>10/07–10/08（2 晚）· 高级海景双人房 · 含早晚</span></div>
+          <div><span class="k">备注</span><span>禁烟 / 尽量高层；酒店内自带潜水俱乐部，D6 出海栈桥直接上船；10/05 前免费取消</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Tropitel+Sahl+Hasheesh+Hurghada+Egypt" target="_blank" rel="noopener">📍 地图导航</a>
+      </div>
+      <div class="book-item">
+        <div class="title"><span class="ic">🏨</span><span>Oberoi Beach Resort · 赫尔格达</span></div>
+        <div class="meta">
+          <div><span class="k">入住</span><span>10/09（1 晚）· 豪华套房 1.81m 特大床 · 含早</span></div>
+          <div><span class="k">备注</span><span>与 Tropitel 同区域，换酒店车程约 10 分钟；9/17 前付费取消罚 ¥546</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=The+Oberoi+Beach+Resort+Sahl+Hasheesh" target="_blank" rel="noopener">📍 地图导航</a>
+      </div>
+      <div class="book-item">
+        <div class="title"><span class="ic">🏨</span><span>Le Méridien Cairo Airport · 开罗机场</span></div>
+        <div class="meta">
+          <div><span class="k">入住</span><span>10/10（1 晚）· 万豪积分兑换 · 机场景观</span></div>
+          <div><span class="k">电话</span><span>+20 2 2265 9600</span></div>
+          <div><span class="k">备注</span><span>步行天桥直连 T3 航站楼，10/11 上午直接登机</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Le+Meridien+Cairo+Airport" target="_blank" rel="noopener">📍 地图导航</a>
+      </div>
+    </div>
+
+    <div class="book-group">
+      <h3>🎫 门票 · 已购</h3>
+      <div class="book-item">
+        <div class="title"><span class="ic">🏛</span><span>GEM 大埃及博物馆</span></div>
+        <div class="meta">
+          <div><span class="k">时间</span><span>10/04 14:00–19:00（13:45 前入场）</span></div>
+          <div><span class="k">预约</span><span>时段票已购 ✅ · 唯一官方渠道 tickets.gem.eg · 不可退改</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Grand+Egyptian+Museum+Giza" target="_blank" rel="noopener">📍 地图导航</a>
+      </div>
+      <div class="book-item">
+        <div class="title"><span class="ic">🔺</span><span>吉萨金字塔群（外观 + 狮身人面像）</span></div>
+        <div class="meta">
+          <div><span class="k">时间</span><span>10/05 07:00–11:00</span></div>
+          <div><span class="k">预约</span><span>门票已购 ✅ · 内部墓室不进（讨厌逼仄）</span></div>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Giza+Pyramids+Giza+Egypt" target="_blank" rel="noopener">📍 地图导航</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. 逐日行程 ============ -->
+  <section id="itinerary">
+    <div class="sec-head"><h2>逐日行程</h2><span class="en">Daily Plan</span></div>
+    <p style="font-size:13px;color:var(--ink-3);margin:-6px 0 14px;">点开每天可展开当日路线地图与一键全天导航；所有时间为当地时区。</p>
+
+    <!-- D1 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D1<small>10/03 周六</small></div>
+        <div class="day-title"><div class="d">北京 → 开罗 · 飞行日</div><div class="route">首都机场 → 深圳 → 开罗</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=Beijing+Capital+International+Airport+T2&amp;destination=Cairo+International+Airport&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Beijing+Capital+International+Airport+T2" target="_blank" rel="noopener">📍 首都机场 T2</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">16:00<span class="tz">北京 UTC+8</span></div>
+            <div class="tl-main"><div class="what">打车去首都机场 T2</div><div class="note">提前 3 小时到，约 ¥60 / 1h</div><span class="chip transport">交通</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">20:30<span class="tz">北京 UTC+8</span></div>
+            <div class="tl-main"><div class="what">海航 HU7713 北京 → 深圳</div><div class="note">23:50 落地深圳 T3 · 中转约 2h · <b>行李需重新托运</b>（含餐）</div><span class="need-book booked">✓ 已出票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">01:50<span class="tz">北京 UTC+8</span></div>
+            <div class="tl-main"><div class="what">海航 HU471 深圳 → 开罗</div><div class="note">跨天飞行 · 机上睡觉 · 07:50 落地开罗 T3</div><span class="need-book booked">✓ 已出票</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D2 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D2<small>10/04 周日</small></div>
+        <div class="day-title"><div class="d">开罗 · 补觉 + 大埃及博物馆</div><div class="route">落地 → GEM → 晚餐</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=Cairo+International+Airport&amp;destination=Abou+El+Sid+Cairo&amp;waypoints=JAZ+Pyramids+Resort|Grand+Egyptian+Museum+Giza&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Grand+Egyptian+Museum+Giza" target="_blank" rel="noopener">📍 GEM 博物馆</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">07:50<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">落地开罗 · 入境手续</div><div class="note">顺序：落地签 → 电话卡 → 换少量埃镑。<b>落地签 $36/人 只刷卡</b>（Visa/Master）· 机场别理拉客司机 · Uber 在停车场 B5 上车</div><span class="chip transport">交通</span><span class="need-book risk">⚠ 需 Visa 卡</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">11:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">JAZ Pyramids 补觉</div><div class="note">时差 5 小时必须补 · 酒店 10:00 可入住</div><span class="chip rest">休息</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">14:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">GEM 大埃及博物馆</div><div class="note">图坦卡蒙黄金面具 + 5000 件珍宝 · 全空调 · 末次入场 17:00 · <b>门票时段票已购</b>（tickets.gem.eg 唯一官方渠道）</div><span class="chip sight">游览</span><span class="need-book booked">✓ 已购票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">20:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">晚餐 Abou El Sid</div><div class="note">人气高会等位 · <b>建议提前订位</b> · 预留开罗晚高峰交通缓冲</div><span class="chip food">餐饮</span><span class="need-book">需订位</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D3 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D3<small>10/05 周一</small></div>
+        <div class="day-title"><div class="d">吉萨金字塔 + 飞卢克索</div><div class="route">金字塔 → 机场 → 卢克索 → 尼罗河日落</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=JAZ+Pyramids+Resort+Giza&amp;destination=Luxor+Public+Ferry&amp;waypoints=Giza+Pyramids|Cairo+International+Airport|Jolie+Ville+Kings+Island+Luxor&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Giza+Pyramids+Giza+Egypt" target="_blank" rel="noopener">📍 吉萨金字塔</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">07:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">吉萨金字塔群</div><div class="note">南门进，先拍狮身人面像 · 外观三塔全看，<b>内部一律不进</b>（讨厌逼仄）· 门票已购 · <b>只刷卡不收现金</b> · 黄牛多，骑骆驼砍价到一半</div><span class="chip sight">游览</span><span class="need-book booked">✓ 已购票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">11:30<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">回酒店拿行李 → 前往开罗机场</div><div class="note">约 30 分钟 · 开罗堵车预留缓冲</div><span class="chip transport">交通</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">14:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">Air Cairo SM070 开罗 → 卢克索</div><div class="note">15:00 落地 · 约 1h · A320 无餐 · 已出票</div><span class="chip transport">交通</span><span class="need-book booked">✓ 已出票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">15:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">入住 Jolie Ville Kings Island</div><div class="note">尼罗河景豪华房 · 泳池 · 卢克索无 Uber（出租车议价 EGP 150–300）</div><span class="chip hotel">酒店</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">17:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">尼罗河日落三角帆船</div><div class="note">东岸 Public Ferry 码头包整艘 · 开价 800–1000 埃镑/时，<b>砍到 400 埃镑/时</b> · 出发前 1h 到码头选船 · 10 月日落约 17:30–18:00 · <b>需提前预订</b></div><span class="chip activity">活动</span><span class="need-book">需预订</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D4 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D4<small>10/06 周二</small></div>
+        <div class="day-title"><div class="d">热气球 + 帝王谷 + 卡纳克</div><div class="route">日出热气球 → 西岸 → 东岸神庙</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=Jolie+Ville+Kings+Island+Luxor&amp;destination=Luxor+Temple&amp;waypoints=Valley+of+the+Kings|Karnak+Temple&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Valley+of+the+Kings+Luxor" target="_blank" rel="noopener">📍 帝王谷</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">04:15<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">卢克索热气球看日出</div><div class="note">04:00 酒店接送 · 全程约 3–4h · <b>旺季提前 5–10 天售罄，尽快预订</b> · 选正规公司（限载 16 人）+ 提前 24h 免费取消票 · 风大可能取消，取消备选：睡到 07:00 帝王谷提前到 08:00 第一批</div><span class="chip activity">活动</span><span class="need-book risk">⚠ 立即预订</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">09:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">帝王谷</div><div class="note">通票 3 墓 · <b>首选 KV9</b>（宽敞不逼仄）· 图坦卡蒙墓等名墓需另购票 · <b>只刷卡</b></div><span class="chip sight">游览</span><span class="need-book">需购票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">11:45<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">卡纳克神庙</div><div class="note">预留帝王谷→东岸 30 分钟过河交通 · 末次入场 16:00 · 门票待购</div><span class="chip sight">游览</span><span class="need-book">需购票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">13:30<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">午餐 + 酒店午休 / 泳池</div><div class="note">正午 35°C 躲太阳 · 弹性安排</div><span class="chip rest">休息</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">17:30<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">卢克索神庙（夜景）</div><div class="note">19:00 前入场 · 傍晚光线好 · 门票待购</div><span class="chip sight">游览</span><span class="need-book">需购票</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D5 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D5<small>10/07 周三</small></div>
+        <div class="day-title"><div class="d">卢克索 → 赫尔格达</div><div class="route">陆路包车约 5h → 红海躺平</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=Jolie+Ville+Kings+Island+Luxor&amp;destination=Tropitel+Sahl+Hasheesh&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Tropitel+Sahl+Hasheesh+Hurghada" target="_blank" rel="noopener">📍 Tropitel</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">09:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">包车去赫尔格达</div><div class="note">约 5h（含休息停靠）· <b>必须白天走</b>（17:00 后禁止跨城，警察检查站拦停）· 经 Qena–Safaga 沙漠公路 · 确认司机车辆与检查点安排 · <b>提前预订包车</b></div><span class="chip transport">交通</span><span class="need-book">需预订</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">15:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">入住 Tropitel Sahl Hasheesh</div><div class="note">含早晚自助 · 红海边溜达 · 沙滩/泳池/SPA · 不预订不可退项目</div><span class="chip rest">休息</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D6 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D6<small>10/08 周四</small></div>
+        <div class="day-title"><div class="d">红海出海日</div><div class="route">Orange Bay + Giftun 群岛游艇</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=Tropitel+Sahl+Hasheesh&amp;destination=Tropitel+Sahl+Hasheesh&amp;waypoints=Orange+Bay+Island+Hurghada&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Orange+Bay+Hurghada" target="_blank" rel="noopener">📍 Orange Bay</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">08:30<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">豪华游艇出海（Giftun + Orange Bay）</div><div class="note">白沙滩 + 绿松石海水 + 珊瑚礁 + 偶遇海豚（不保证）· 船上午餐 · 带防晒/泳衣/水鞋 · 潜水俱乐部栈桥直接上船 · <b>提前预订</b>（10/08 为埃及调休假日，本地人多，尽早订）</div><span class="chip activity">活动</span><span class="need-book">需预订</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">17:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">回酒店休息 / 早晚自助</div><div class="note">不另订半日行程，避免与全日游艇重复</div><span class="chip rest">休息</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D7 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D7<small>10/09 周五</small></div>
+        <div class="day-title"><div class="d">红海躺平日</div><div class="route">换到 Oberoi 躺平</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=Tropitel+Sahl+Hasheesh&amp;destination=Seafood+Market+Hurghada&amp;waypoints=The+Oberoi+Beach+Resort+Sahl+Hasheesh&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=The+Oberoi+Beach+Resort+Sahl+Hasheesh" target="_blank" rel="noopener">📍 Oberoi</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">11:20<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">换酒店到 Oberoi</div><div class="note">11:00 退房 · 同区域车程约 10 分钟 · 15:00 官方入住，早到以酒店确认为准</div><span class="chip hotel">酒店</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">全天<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">Oberoi 躺平</div><div class="note">专属沙滩 / 泳池 / SPA · 最贵酒店躺平最值 · 别安排任何活动</div><span class="chip rest">休息</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">16:30<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">海鲜市场晚餐</div><div class="note">建议提前订位 · 海鲜现选现做</div><span class="chip food">餐饮</span><span class="need-book">需订位</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D8 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D8<small>10/10 周六</small></div>
+        <div class="day-title"><div class="d">飞回开罗 · 城市休整</div><div class="route">退房 → 飞开罗 → Citystars</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=The+Oberoi+Beach+Resort+Sahl+Hasheesh&amp;destination=Le+Meridien+Cairo+Airport&amp;waypoints=Hurghada+International+Airport|Citystars+Heliopolis+Cairo&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Citystars+Heliopolis+Cairo" target="_blank" rel="noopener">📍 Citystars</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">09:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">酒店早餐 / 退房</div><div class="note">11:00 前退房 · 收拾行李后前往赫尔格达机场 T2</div><span class="chip rest">休息</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">13:30<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">Air Cairo SM023 赫尔格达 → 开罗</div><div class="note">15:00 落地 CAI T3 · 已出票 · 不再坐 7h 大巴</div><span class="chip transport">交通</span><span class="need-book booked">✓ 已出票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">16:30<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">Citystars 购物 / 晚餐</div><div class="note">网约车在 CAI T3 停车场 B5 上车 · 不搭讪司机</div><span class="chip rest">休息</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">20:00<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">入住 Le Méridien Cairo Airport</div><div class="note">步行天桥直连 T3 · 万豪积分已订 · 翌日 09:00 前往出发流程</div><span class="chip hotel">酒店</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D9 -->
+    <div class="day">
+      <div class="day-head">
+        <div class="day-badge">D9<small>10/11 周日</small></div>
+        <div class="day-title"><div class="d">开罗 → 北京 · 返程</div><div class="route">开罗 T3 → 深圳 → 北京</div></div>
+        <div class="day-arrow">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="day-nav">
+          <a class="nav-all" href="https://www.google.com/maps/dir/?api=1&amp;origin=Le+Meridien+Cairo+Airport&amp;destination=Beijing+Capital+International+Airport+T2&amp;travelmode=driving" target="_blank" rel="noopener">🧭 全天导航</a>
+          <a class="nav-map" href="https://www.google.com/maps/search/?api=1&amp;query=Le+Meridien+Cairo+Airport" target="_blank" rel="noopener">📍 Le Méridien</a>
+        </div>
+        <div class="day-timeline">
+          <div class="tl-item">
+            <div class="tl-time">12:10<span class="tz">埃及 UTC+3</span></div>
+            <div class="tl-main"><div class="what">海航 HU472 开罗 → 深圳</div><div class="note">10/12 04:00 落地深圳 · 中转 3h10m · <b>行李直达北京</b> · 787 含餐</div><span class="chip transport">交通</span><span class="need-book booked">✓ 已出票</span></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">07:10<span class="tz">北京 UTC+8</span></div>
+            <div class="tl-main"><div class="what">海航 HU7702 深圳 → 北京</div><div class="note">10:15 落地北京 T2 · 回家</div><span class="chip transport">交通</span><span class="need-book booked">✓ 已出票</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. 待办清单 ============ -->
+  <section id="todo">
+    <div class="sec-head"><h2>待办清单</h2><span class="en">To-do</span></div>
+    <ul class="todo">
+      <li><span class="st done">✅</span><span class="txt"><b>国际机票</b>（海航往返，08-08 出票）</span></li>
+      <li><span class="st done">✅</span><span class="txt"><b>内陆航班 ×2</b>（Air Cairo SM070 / SM023，已出票）</span></li>
+      <li><span class="st done">✅</span><span class="txt"><b>酒店 9 晚</b>（JAZ / Jolie Ville / Tropitel / Oberoi / Le Méridien）</span></li>
+      <li><span class="st done">✅</span><span class="txt"><b>GEM 大埃及博物馆门票</b>（10/04 时段票）</span></li>
+      <li><span class="st done">✅</span><span class="txt"><b>吉萨金字塔门票</b>（10/05）</span></li>
+      <li><span class="st done">✅</span><span class="txt"><b>银联借记卡</b>（境外取现免手续费）</span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>银行购汇 $1,000–1,500</b>（工行 APP 购汇 + 预约取现 · 备注小面额零钞 · 不要破旧美钞）</span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>卢克索热气球</b>（旺季提前 5–10 天售罄，尽快订 · 选 24h 免费取消）<span class="dl">D4 · 10/06 · GetYourGuide</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>尼罗河日落帆船</b><span class="dl">D3 · 10/05 17:00 · Viator</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>卢克索→赫尔格达包车</b><span class="dl">D5 · 10/07 09:00 · GetYourGuide</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>红海游艇出海（Orange Bay）</b><span class="dl">D6 · 10/08 · GetYourGuide</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>帝王谷 / 卡纳克 / 卢克索神庙门票</b><span class="dl">D4 · 10/06 · egymonuments 只刷卡</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>落地签二维码 $36/人</b><span class="dl">出发前 48h（10/01 前后）申请 · 只收 Visa/Master · 7 天有效期</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>Abou El Sid 订位</b><span class="dl">D2 · 10/04 晚餐</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>海鲜市场晚餐订位</b><span class="dl">D7 · 10/09</span></span></li>
+      <li><span class="st todo">⬜</span><span class="txt"><b>出发前 3 天临行检查</b><span class="dl">美元现金 · 银行卡分放 · 离线地图 · eSIM · 充电宝 · 家人报备</span></span></li>
+    </ul>
+    <p class="todo-note">清单为纯列表 · 完成一项后告诉 Shane，由他更新页面（不做本地勾选，避免多人看到不一致）。</p>
+  </section>
+
+  <!-- ============ 6. 实用贴士 ============ -->
+  <section id="tips">
+    <div class="sec-head"><h2>实用贴士</h2><span class="en">Good to Know</span></div>
+    <div class="tips">
+
+      <div class="tip">
+        <h3>📍 地图 / 打车 App<span class="lvl star">必备</span></h3>
+        <ul>
+          <li><b>Google Maps</b> 导航/打车/查餐厅 · 出发前下载开罗/卢克索/赫尔格达离线地图</li>
+          <li><b>Maps.me</b> 全离线备用（OSM 数据，不耗流量）</li>
+          <li><b>滴滴国际版</b> 中文界面最友好，支持支付宝/微信</li>
+          <li><b>Uber</b> 开罗/吉萨/赫尔格达可用 · <b>inDrive</b> 竞标最便宜（卢克索也能用）· <b>Careem</b> 备选</li>
+          <li><b>WhatsApp</b> 联系酒店/司机 · <b>Google Translate</b> 下载阿语离线包</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <h3>💳 支付 · 只收卡</h3>
+        <p>2026 年起埃及主要景点（金字塔/卡纳克/GEM 等）<b>只刷卡不收现金</b>。随身带 <b>2 张以上 Visa/Mastercard 分开放</b>，另备少量埃镑现金应急（读卡器偶尔故障、园区 ATM 少）。</p>
+      </div>
+
+      <div class="tip">
+        <h3>🛂 落地签新规</h3>
+        <p>2026-08-01 起实行<b>数字落地签</b>：<b>$36/人</b>（签证 $30 + 服务费 $6），<b>只刷卡</b>，二维码 <b>7 天有效</b>。建议出发前 48h（10/01 前后）通过官方线上门户或 APP「Visa On Arrival Egypt」申请，并下载 APP 备选。</p>
+      </div>
+
+      <div class="tip">
+        <h3>⚠️ 安全与防骗</h3>
+        <ul>
+          <li>机场/景点<b>别理拉客司机</b>，Uber 一律在停车场指定上车点（开罗 B5）</li>
+          <li>骑骆驼/纪念品<b>砍价到开价一半</b>，谈好再上</li>
+          <li>跨城<b>必须白天走</b>（17:00 后禁止，检查站拦停）</li>
+          <li>打车纠纷 App 内申诉，别付现金加价</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <h3>📞 紧急情况</h3>
+        <ul>
+          <li><b>航班取消/延误</b>：海航 95339 或机票 App 改签</li>
+          <li><b>证件丢失</b>：报警拿报案单 → 中国驻埃及大使馆 +20 2 2736 3505</li>
+          <li><b>身体不适</b>：肠胃药/退烧药随身，严重去医院</li>
+          <li><b>热气球取消</b>：免费取消退款，改 D4 上午帝王谷提前</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <h3>🧳 行李额（海航经济舱 / 人）</h3>
+        <ul>
+          <li>托运 23kg × 1 件（≤158cm ≈ 28 寸箱）· 两人合计 2 件</li>
+          <li>手提 7kg × 1 件（≤20×40×55cm ≈ 20 寸登机箱）</li>
+          <li>个人物品 1 件（30×30×20cm 随身小包）</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <h3>☀️ 天气与打包</h3>
+        <p>10 月正午约 <b>35°C</b>，清晨约 <b>10–15°C</b>。必带：SPF50+ 防晒霜、墨镜、防晒帽、薄外套、泳衣、水鞋、拖鞋、欧标转换插头、充电宝（2 万毫安内）、肠胃药。进神庙着装需长裤/长裙。</p>
+      </div>
+
+      <div class="tip">
+        <h3>🛏 酒店提示</h3>
+        <ul>
+          <li>JAZ Pyramids：10/02 前免费取消 · 提前 1 天邮件联系</li>
+          <li>Jolie Ville：已备注安静房 · 禁止携带酒店外食物</li>
+          <li>Tropitel：10/05 前免费取消 · 禁烟高层</li>
+          <li>Oberoi：9/17 前付费取消罚 ¥546 · 躺平日别安排活动</li>
+          <li>Le Méridien：万豪积分 · 直连 T3 最省事</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="flag">🇪🇬 ✈ 🇨🇳</div>
+    <div>埃及 · 2026 十一 · 9 天 · 祝旅途顺利</div>
+    <div>本页为终稿，数据更新由 Shane 维护</div>
+  </footer>
+
+</div>
+
+<script>
+/* ============ 数据：行程事件（全部用绝对时间戳，跨时区正确） ============ */
+/* 埃及 = UTC+3 · 北京 = UTC+8 · 时间戳用 Date.UTC 表达 UTC 时刻 */
+var EVENTS = [
+  { t: Date.UTC(2026,9,3,12,30), name:"D1 · 海航 HU7713 北京起飞", place:"北京首都机场 T2", tz:"北京 UTC+8", local:"10/03 20:30" },
+  { t: Date.UTC(2026,9,4,4,50),  name:"D2 · 落地开罗 T3", place:"开罗国际机场", tz:"埃及 UTC+3", local:"10/04 07:50" },
+  { t: Date.UTC(2026,9,4,11,0),  name:"D2 · GEM 大埃及博物馆", place:"吉萨", tz:"埃及 UTC+3", local:"10/04 14:00" },
+  { t: Date.UTC(2026,9,5,4,0),   name:"D3 · 吉萨金字塔群", place:"吉萨", tz:"埃及 UTC+3", local:"10/05 07:00" },
+  { t: Date.UTC(2026,9,5,11,0),  name:"D3 · Air Cairo SM070 飞卢克索", place:"开罗机场", tz:"埃及 UTC+3", local:"10/05 14:00" },
+  { t: Date.UTC(2026,9,5,14,0),  name:"D3 · 尼罗河日落帆船", place:"卢克索东岸", tz:"埃及 UTC+3", local:"10/05 17:00" },
+  { t: Date.UTC(2026,9,6,1,15),  name:"D4 · 卢克索热气球看日出", place:"卢克索", tz:"埃及 UTC+3", local:"10/06 04:15" },
+  { t: Date.UTC(2026,9,7,6,0),   name:"D5 · 包车去赫尔格达", place:"卢克索", tz:"埃及 UTC+3", local:"10/07 09:00" },
+  { t: Date.UTC(2026,9,8,5,30),  name:"D6 · 红海游艇出海", place:"赫尔格达", tz:"埃及 UTC+3", local:"10/08 08:30" },
+  { t: Date.UTC(2026,9,10,10,30),name:"D8 · Air Cairo SM023 飞开罗", place:"赫尔格达机场", tz:"埃及 UTC+3", local:"10/10 13:30" },
+  { t: Date.UTC(2026,9,11,9,10), name:"D9 · 海航 HU472 开罗起飞", place:"开罗 T3", tz:"埃及 UTC+3", local:"10/11 12:10" },
+  { t: Date.UTC(2026,9,11,23,10),name:"D10 · 海航 HU7702 深圳起飞", place:"深圳宝安 T3", tz:"北京 UTC+8", local:"10/12 07:10" }
+];
+
+/* ============ 倒计时 ============ */
+var cd = { d:document.getElementById('cd-d'), h:document.getElementById('cd-h'),
+           m:document.getElementById('cd-m'), s:document.getElementById('cd-s'),
+           ev:document.getElementById('nowEvent'), et:document.getElementById('nowEventTime') };
+function pad(n){ return (n<10?'0':'')+n; }
+function findNext(){
+  var now = Date.now();
+  for (var i=0;i<EVENTS.length;i++){ if (EVENTS[i].t > now) return EVENTS[i]; }
+  return null;
+}
+function tick(){
+  var now = Date.now();
+  var ev = findNext();
+  if (!ev){
+    cd.ev.textContent = "行程已结束";
+    cd.et.textContent = "旅途愉快，平安到家 🎉";
+    cd.d.textContent=cd.h.textContent=cd.m.textContent=cd.s.textContent="00";
+    return;
+  }
+  var diff = Math.max(0, ev.t - now);
+  var d = Math.floor(diff/86400000);
+  var h = Math.floor(diff%86400000/3600000);
+  var m = Math.floor(diff%3600000/60000);
+  var s = Math.floor(diff%60000/1000);
+  cd.d.textContent = d; cd.h.textContent = pad(h); cd.m.textContent = pad(m); cd.s.textContent = pad(s);
+  cd.ev.textContent = ev.name;
+  cd.et.textContent = ev.local + " · " + ev.tz + " · " + ev.place;
+}
+tick(); setInterval(tick, 1000);
+
+/* ============ 昼夜切换 ============ */
+var themeBtn = document.getElementById('themeBtn');
+function applyTheme(){
+  if (document.documentElement.classList.contains('dark')){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#191612');
+  } else {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#f7f2e9');
+  }
+}
+themeBtn.addEventListener('click', function(){
+  document.documentElement.classList.toggle('dark');
+  applyTheme();
+});
+applyTheme();
+
+/* ============ 逐日卡片展开 ============ */
+document.querySelectorAll('.day-head').forEach(function(head){
+  head.addEventListener('click', function(){
+    var day = head.parentElement;
+    day.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
